@@ -1,0 +1,14 @@
+{
+  "name": "OmNextReactNativeRouterFlux",
+  "interface": "om-next",
+  "androidHost": "localhost",
+  "modules": [
+    "react-native-router-flux",
+    "react-native-button",
+    "react-native-modalbox",
+    "react-native-navbar"
+  ],
+  "imageDirs": [
+    "images"
+  ]
+}
