@@ -124,7 +124,21 @@
           (text {} "Launch page")
           (button {:onPress #(.login Actions (clj->js {:data  "Custom data"
                                                        :title "Custom title"}))} "Go to Login page")
-          (button {:onPress #(.register Actions)} "Go to Register page"))))
+          (button {:onPress #(.register Actions)} "Go to Register page")
+          (button {:onPress #(.register2 Actions)} "Go to Register page without animation")
+          (button {:onPress #(.modalBox Actions)} "PopUp with ReactNativeModalBox")
+          (button {:onPress #(.tabbar Actions)} "Go to TabBar")
+          (button {:onPress #(.showActionSheet Actions
+                                               (clj->js {:callback
+                                                         (fn [index] (.log js/console "Selected:" index))}))} "Show ActionSheet")
+          )))
+
+;  <Button onPress={Actions.register2}>Go to Register page without animation</Button>
+;<Button onPress={()=>Actions.error("Error message")}>Popup error</Button>
+;<Button onPress={Actions.modalBox}>PopUp with ReactNativeModalBox</Button>
+;<Button onPress={Actions.tabbar}>Go to TabBar page</Button>
+;<Button onPress={()=>Actions.showActionSheet({callback:index=>alert("Selected:"+index)})}>Show ActionSheet</Button>
+
 
 (def launch (om/factory Launch))
 
@@ -230,61 +244,112 @@
               (schema {:key         "schema-default"
                        :name        "default"
                        :sceneConfig (aget Navigator "SceneConfigs" "FloatFromRight")})
-              (schema {:key         "schema-withoutAnimation"
-                       :name        "withoutAnimation"})
-              (schema {:key         "schema-tab"
-                       :name        "tab"
+              (schema {:key  "schema-withoutAnimation"
+                       :name "withoutAnimation"})
+              (schema {:key  "schema-tab"
+                       :name "tab"
                        :type "switch"
                        :icon TabIcon})
-              (route {:key  "route-launch"
-                      :name "launch"
-                      :title "Launch"
-                      :component Launch
-                      :header Header
+              (route {:key       "route-register"
+                      :name      "register"
+                      :component Register})
+              (route {:key                    "route-showActionSheet"
+                      :name                   "showActionSheet"
+                      :type                   "actionSheet"
+                      :title                  "What do you want to do?"
+                      :options                ["Delete" "Save" "Cancel"]
+                      :cancelButtonIndex      2
+                      :destructiveButtonIndex 0})
+              (route {:key       "route-home"
+                      :name      "home"
+                      :component Home
+                      :title     "Replace"
+                      :type      "replace"})
+              (route {:key    "route-login"
+                      :name   "login"
+                      :schema "modal"}
+                     (router [{:key  "router-loginRouter"
+                               :name "loginRouter"}
+                              om-props]
+                             (route {:key       "route-loginModal"
+                                     :name      "loginModal"
+                                     :component Login
+                                     :schema    "modal"})
+                             (route {:key        "route-loginModal2"
+                                     :name       "loginModal2"
+                                     :hideNavBar true
+                                     :component  Login2
+                                     :title      "Login2"})))
+              (route {:key       "route-register2"
+                      :name      "register2"
+                      :component Register
+                      :title     "Register2"
+                      :schema    "withoutAnimation"})
+              (route {:key       "route-modalBox"
+                      :name      "modalBox"
+                      :type      "modal"
+                      :component modalbox})
+              (route {:key  "route-tabbar"
+                      :name "tabbar"}
+                     (router [{:key               "router-tabbar"
+                               :footer            TabBar
+                               :showNavigationBar false}
+                              om-props]
+                             (route {:key    "route-tab1"
+                                     :name   "tab1"
+                                     :schema "tab"
+                                     :title  "Tab #1"}
+                                    (router [{:key   "router-tab1"
+                                              :onPop #(do (.log js/console "onPop is called!")
+                                                          true)}
+                                             om-props]
+                                            (route {:key       "route-tab1_1"
+                                                    :name      "tab1_1"
+                                                    :component TabView
+                                                    :title     "Tab #1_1"})))
+                             (route {:key    "route-tab2"
+                                     :name   "tab2"
+                                     :schema "tab"
+                                     :title  "Tab #2"
+                                     :hideNavBar true}
+                                    (router [{:key   "router-tab2"
+                                              :onPop #(do (.log js/console "onPop is called!")
+                                                          true)}
+                                             om-props]
+                                            (route {:key       "route-tab2_1"
+                                                    :name      "tab1_1"
+                                                    :component TabView
+                                                    :title     "Tab #2_1"})
+                                            (route {:key "route-tab2_2"
+                                                    :name "tab2_2"
+                                                    :component TabView
+                                                    :title "Tab #2_2"})))
+                             (route {:key "route-tab3"
+                                     :name "tab3"
+                                     :schema "tab"
+                                     :title "Tab #3"
+                                     :component TabView
+                                     :hideTabBar true})
+                             (route {:key "route-tab4"
+                                     :name "tab4"
+                                     :schema "tab"
+                                     :title "Tab #4"
+                                     :component TabView})
+                             (route {:key "route-tab5"
+                                     :name "tab5"
+                                     :schema "tab"
+                                     :title "Tab #5"
+                                     :component TabView})
+                             ))
+
+              (route {:key        "route-launch"
+                      :name       "launch"
+                      :title      "Launch"
+                      :component  Launch
+                      :header     Header
                       :wrapRouter true
                       :hideNavBar true
-                      :initial true})
-              (route {:key  "route-register"
-                      :name "register"
-                      :component Register})
-              (route {:key "route-showActionSheet"
-                      :name "showActionSheet"
-                      :type "actionSheet"
-                      :title "What do you want to do?"
-                      :options ["Delete" "Save" "Cancel"]
-                      :cancelButtonIndex 2
-                      :destructiveButtonIndex 0})
-              (route {:key "route-home"
-                      :name "home"
-                      :component Home
-                      :title "Replace"
-                      :type "replace"})
-              (route {:key "route-login"
-                      :name "login"
-                      :schema "modal"}
-                     (router [{:key "router-loginRouter"
-                              :name "loginRouter"}
-                              om-props]
-                             (route {:key "route-loginModal"
-                                     :name "loginModal"
-                                     :component Login
-                                     :schema "modal"})
-                             (route {:key "route-loginModal2"
-                                     :name "loginModal2"
-                                     :hideNavBar true
-                                     :component Login2
-                                     :title "Login2"})))
-              (route {:key "route-register2"
-                      :name "register2"
-                      :component Register
-                      :title "Register2"
-                      :schema "withoutAnimation"})
-              (route {:key "route-modalBox"
-                      :name "modalBox"
-                      :type "modal"
-                      :component ReactNativeModalbox})
-;  <Route name="modalBox" type="modal" component={ReactNativeModalBox}/>
-
+                      :initial    true})
 
               ))))
 
