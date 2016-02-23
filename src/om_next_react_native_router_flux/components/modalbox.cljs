@@ -16,15 +16,16 @@
 (defui Modalbox
   Object
   (componentWillMount [this]
-    (.setState this (clj->js {:isOpen true})))
+    (om/set-state! this {:isOpen true}))
   (render [this]
-    (let [js-props (aget this "props")
-          isOpen (aget js-props "isOpen")]
+    (let [local-state (om.next/get-state this)
+          isOpen (:isOpen local-state)]
       (modal {:style             (:modal styles)
               :animationDuration 200
               :swipeThreshold    100
               :position          "center"
               :isOpen            isOpen
-              :onClosed          (.dismiss Actions)}
-             (text {:style (:text styles)} "ReactNativeModalBox")
-             (text {} "(swipe down to close")))))
+              :onClosed          #(.dismiss Actions)}
+             (text {:key "text-1"
+                    :style (:text styles)} "ReactNativeModalBox")
+             (text {:key "text-2"} "(swipe down to close")))))
