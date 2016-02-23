@@ -6,13 +6,15 @@
     [om-next-react-native-router-flux.react-helpers :refer [button]]
     [om.next :as om :refer-macros [defui]]))
 
+(def styles {:container {:flex            1
+                         :justifyContent  "center"
+                         :alignItems      "center"
+                         :backgroundColor "#F5FCFF"}})
+
 (defui Register
        Object
        (render [this]
-               (view {:style {:flex            1
-                              :justifyContent  "center"
-                              :alignItems      "center"
-                              :backgroundColor "transparent"}}
+               (view {:style (:container styles)}
                      (text {} "Register page")
                      (button {:onPress #(.home Actions)} "Replace screen")
                      (button {:onPress #(.pop Actions)} "Back"))))

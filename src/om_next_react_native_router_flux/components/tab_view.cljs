@@ -6,6 +6,11 @@
     [om-next-react-native-router-flux.react-helpers :refer [button]]
     [om.next :as om :refer-macros [defui]]))
 
+(def styles {:container {:flex            1
+                         :justifyContent  "center"
+                         :alignItems      "center"
+                         :backgroundColor "#F5FCFF"}})
+
 (defui TabIcon
   Object
   (render [this]
@@ -17,13 +22,8 @@
 (defui TabView
        Object
        (render [this]
-               (let [all-props (om/props this)
-                     title "TITLE!"
-                     name "NAME!"]
-                 (view {:style {:flex            1
-                                :justifyContent  "center"
-                                :alignItems      "center"
-                                :backgroundColor "#F5FCFF"}}
+               (let [title "TITLE!"]
+                 (view {:style (:container styles)}
                        (text {} (str "Tab " title))
                        (button {:onPress #(.pop Actions)} "Back")
                        (button {:onPress #(.tab1 Actions)} "Switch to tab1")))))
@@ -31,10 +31,6 @@
 (defui TabView2
        Object
        (render [this]
-               (let [all-props (om/props this)
-                     name "1"]
-                 (view {:style {:flex            1
-                                :justifyContent  "center"
-                                :alignItems      "center"
-                                :backgroundColor "#F5FCFF"}}
+               (let [name "1"]
+                 (view {:style (:container styles)}
                        (text {} (str "Tab " name))))))

@@ -6,12 +6,13 @@
     [om-next-react-native-router-flux.react-helpers :refer [button]] ;; IMPORTANT!  Must be required second
     [om.next :as om :refer-macros [defui]]))
 
+(def styles {:container {:flex            1
+                         :justifyContent  "center"
+                         :alignItems      "center"
+                         :backgroundColor "#F5FCFF"}})
 (defui Home
   Object
   (render [this]
-    (view {:style {:flex            1
-                   :justifyContent  "center"
-                   :alignItems      "center"
-                   :backgroundColor "#F5FCFF"}}
+    (view {:style (:container styles)}
           (text {} "Replace Screen")
           (button {:onPress #(.pop Actions)} "Back"))))
