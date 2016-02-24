@@ -1,14 +1,34 @@
 # om-next-react-native-router-flux
 
-A Clojure library designed to ... well, that part is up to you.
+Looking for a React Native routing solution that doesn't suck?  This solution uses [om.next](https://github.com/omcljs/om/) and [react-native-router-flux](https://github.com/aksonov/react-native-router-flux).  
 
-## Usage
+## Features
+* Tabs
+* Modals
+* Action Sheets
+* Screen transition animations (or lack thereof)
 
-FIXME
+## Test it out
+1. Install [re-natal](https://github.com/drapanjanas/re-natal) 
+2. Clone this repo
+```sh
+git clone https://github.com/seantempesta/om-next-react-native-router-flux.git
+```
+2.  cd into the directory
+```sh
+cd om-next-react-native-router-flux
+```
+3. Run react's package manager and start up figwheel in two separate terminals
+```sh
+$ react-native run-ios
+$ lein figwheel ios
+```
 
-## License
 
-Copyright © 2016 FIXME
+License
+----
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+MIT
+
+
+**Free Software, Hell Yeah!**
