@@ -18,7 +18,11 @@ git clone https://github.com/seantempesta/om-next-react-native-router-flux.git
 ```sh
 cd om-next-react-native-router-flux
 ```
-3. Run react's package manager and start up figwheel in two separate terminals
+3. Install npm packages
+```sh
+$ npm install
+```
+4. Run react's package manager and start up figwheel in two separate terminals
 ```sh
 $ react-native run-ios
 $ lein figwheel ios
